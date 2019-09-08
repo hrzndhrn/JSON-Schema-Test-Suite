@@ -65,6 +65,11 @@ Who Uses the Test Suite
 
 This suite is being used by:
 
+### Clojure ###
+
+* [jinx](https://github.com/juxt/jinx)
+* [json-schema](https://github.com/tatut/json-schema)
+
 ### Coffeescript ###
 
 * [jsck](https://github.com/pandastrike/jsck)
@@ -75,7 +80,7 @@ This suite is being used by:
 
 ### Dart ###
 
-* [json_schema](https://github.com/patefacio/json_schema) 
+* [json_schema](https://github.com/patefacio/json_schema)
 
 ### Elixir ###
 
@@ -87,7 +92,7 @@ This suite is being used by:
 
 ### Go ###
 
-* [gojsonschema](https://github.com/sigu-399/gojsonschema) 
+* [gojsonschema](https://github.com/sigu-399/gojsonschema)
 * [validate-json](https://github.com/cesanta/validate-json)
 
 ### Haskell ###
@@ -122,11 +127,12 @@ This suite is being used by:
 
 ### Node.js ###
 
-The JSON Schema Test Suite is also available as an
-[npm](https://www.npmjs.com/package/json-schema-test-suite) package.
-Node-specific support is maintained on the [node branch](https://github.com/json-schema-org/JSON-Schema-Test-Suite/tree/node).
-See [NODE-README.md](https://github.com/json-schema-org/JSON-Schema-Test-Suite/blob/node/NODE-README.md)
-for more information.
+For node.js developers, the suite is also available as an
+[npm](https://www.npmjs.com/package/@json-schema-org/tests) package.
+
+Node-specific support is maintained in a [separate
+repository](https://github.com/json-schema-org/json-schema-test-suite-npm)
+which also welcomes your contributions!
 
 ### .NET ###
 
@@ -138,14 +144,21 @@ for more information.
 * [json-schema](https://github.com/justinrainbow/json-schema)
 * [json-guard](https://github.com/thephpleague/json-guard)
 
+### PostgreSQL ###
+
+* [postgres-json-schema](https://github.com/gavinwahl/postgres-json-schema)
+* [is_jsonb_valid](https://github.com/furstenheim/is_jsonb_valid)
+
 ### Python ###
 
 * [jsonschema](https://github.com/Julian/jsonschema)
 * [fastjsonschema](https://github.com/seznam/python-fastjsonschema)
+* [hypothesis-jsonschema](https://github.com/Zac-HD/hypothesis-jsonschema)
 
 ### Ruby ###
 
 * [json-schema](https://github.com/hoxworth/json-schema)
+* [json_schemer](https://github.com/davishmcclurg/json_schemer)
 
 ### Rust ###
 
@@ -154,15 +167,6 @@ for more information.
 ### Swift ###
 
 * [JSONSchema](https://github.com/kylef/JSONSchema.swift)
-
-### Clojure ###
-
-* [json-schema](https://github.com/tatut/json-schema)
-
-### PostgreSQL ###
-
-* [postgres-json-schema](https://github.com/gavinwahl/postgres-json-schema)
-* [is_jsonb_valid](https://github.com/furstenheim/is_jsonb_valid)
 
 If you use it as well, please fork and send a pull request adding yourself to
 the list :).
