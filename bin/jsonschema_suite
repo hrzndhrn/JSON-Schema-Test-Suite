@@ -17,13 +17,9 @@ if getattr(unittest, "skipIf", None) is None:
     unittest.skipIf = lambda cond, msg : lambda fn : fn
 
 try:
-    import jsonschema
+    import jsonschema.validators
 except ImportError:
     jsonschema = None
-else:
-    validators = getattr(
-        jsonschema.validators, "validators", jsonschema.validators
-    )
 
 
 ROOT_DIR = os.path.abspath(
@@ -49,7 +45,15 @@ REMOTES = {
         u"integer": {u"type": u"integer"},
         u"refToInteger": {u"$ref": u"#/integer"},
     },
-    "folder/folderInteger.json": {u"type": u"integer"}
+    "subSchemas-defs.json": {
+        u"$defs": {
+            u"integer": {u"type": u"integer"},
+            u"refToInteger": {u"$ref": u"#/$defs/integer"},
+        }
+    },
+    "baseUriChange/folderInteger.json": {u"type": u"integer"},
+    "baseUriChangeFolder/folderInteger.json": {u"type": u"integer"},
+    "baseUriChangeFolderInSubschema/folderInteger.json": {u"type": u"integer"},
 }
 REMOTES_DIR = os.path.join(ROOT_DIR, "remotes")
 
@@ -99,11 +103,13 @@ class SanityTests(unittest.TestCase):
 
     def test_all_descriptions_have_reasonable_length(self):
         for case in cases(self.test_files):
-            descript = case["description"]
+            description = case["description"]
             self.assertLess(
-                len(descript),
-                60,
-                "%r is too long! (keep it to less than 60 chars)" % (descript,)
+                len(description),
+                70,
+                "%r is too long! (keep it to less than 70 chars)" % (
+                    description,
+                ),
             )
 
     def test_all_descriptions_are_unique(self):
@@ -118,7 +124,7 @@ class SanityTests(unittest.TestCase):
     @unittest.skipIf(jsonschema is None, "Validation library not present!")
     def test_all_schemas_are_valid(self):
         for schema in os.listdir(SUITE_ROOT_DIR):
-            schema_validator = validators.get(schema)
+            schema_validator = jsonschema.validators.validators.get(schema)
             if schema_validator is not None:
                 test_files = collect(os.path.join(SUITE_ROOT_DIR, schema))
                 for case in cases(test_files):
@@ -132,7 +138,8 @@ class SanityTests(unittest.TestCase):
 
     @unittest.skipIf(jsonschema is None, "Validation library not present!")
     def test_suites_are_valid(self):
-        validator = jsonschema.Draft4Validator(TESTSUITE_SCHEMA)
+        Validator = jsonschema.validators.validator_for(TESTSUITE_SCHEMA)
+        validator = Validator(TESTSUITE_SCHEMA)
         for tests in files(self.test_files):
             try:
                 validator.validate(tests)
@@ -217,8 +224,9 @@ def main(arguments):
                 if e.errno != errno.EEXIST:
                     raise
 
-            with open(filepath, "wb") as out_file:
+            with open(filepath, "w") as out_file:
                 json.dump(schema, out_file, indent=4, sort_keys=True)
+                out_file.write("\n")
     elif arguments.command == "serve":
         try:
             from flask import Flask, jsonify
